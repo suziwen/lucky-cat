@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>tagsMap</title>
+  <link href="../css/font-awesome4/css/font-awesome.min.css" rel="stylesheet">
+  <link href="./css/tags.css" rel="stylesheet">
+  <script src="lib/d3.v3.js" charset="utf-8"></script>
+  <script src="lib/colorbrewer.js" charset="utf-8"></script>
+  <script src="lib/GitHub.3.4.0.min.js" charset="utf-8"></script>
+  <script type="text/javascript" src="lib/d3.layout.cloud.js"></script>
+  <script src="../js/jquery-1.11.2.min.js"></script>
+  <script type="text/javascript" src="../js/dat.gui.min.js"></script>
+</head>
+<body class="upset-body">
+<div class="ui-fader">
+</div>
+
+<div class="ui-container">
+  <div class="ui-row">
+
+    <!--------------- Left Side configuration menu ------------------>
+
+    <div class="ui-column ui-layout-west">
+      <div id="groupConfig" class="configTable">
+
+
+        <div class="configHeader">第一层汇总</div>
+        <div id="firstLevelGrouping"></div>
+        <div id='firstLevelMinCardinality' style="padding-top: 5px;" hidden>overlap degree:<br/> <input
+                id='firstLevelMinCardinalityInput' type='number' min='0' max='12' value='0'>
+
+        </div>
+      </div>
+
+
+      <div id="groupL2Config" class="configTable">
+        <div class="configHeader">第二层汇总</div>
+        <div id="secondLevelGrouping"></div>
+        <div id='secondLevelMinCardinality' style="padding-top: 5px;" hidden>overlap degree:<br/> <input
+                id='secondLevelMinCardinalityInput' type='number' min='0' max='12' value='0'>
+        </div>
+      </div>
+
+      <div id="sortConfig" class="configTable">
+        <div class="configHeader"> 排序</div>
+        <div><input type='radio' id='sortNrSetsInIntersection' name='sort' checked="true">
+          <label for="sortNrSetsInIntersection">Degree</label></div>
+        <div><input type='radio' id='sortIntersectionSize' name='sort'><label for="sortIntersectionSize">
+          Cardinality</label></div>
+        <div><input type='radio' id="sortRelevanceMeasure" name='sort'>
+          <label for="sortRelevanceMeasure"> Deviation</label></div>
+      </div>
+
+      <div id='options' class='configTable'>
+        <div class="configHeader">Aggregates</div>
+        <div><span class="option level-1-button" id="collapseAll">全部折叠</span></div>
+        <div><span class="option level-1-button" id="expandAll">全部展开</span></div>
+      </div>
+
+
+      <div id='rowSize' class='configTable'>
+        <div class="configHeader">行高</div>
+        <div>
+          <select id='rowSizeValue'>
+            <option value="20">大</option>
+            <option value="15">中</option>
+            <option value="12">小</option>
+          </select>
+        </div>
+      </div>
+
+
+      <div id='intersectionSize' class='configTable'>
+        <div class="configHeader">Data</div>
+        <div>Min Degree:<br/> <input id='minCardinality' type='number' min='0' max='12' value='0'>
+
+        </div>
+        <div>Max Degree:<br/><input id='maxCardinality' type='number' min='0' max='12'></div>
+        <div><input type='checkbox' id='hideEmpties' checked='true'><label for="hideEmpties">隐藏空集</label></div>
+      </div>
+
+
+
+
+      <div id='dataset-info-viewer'>
+        <div class="configH1">数据库信息</div>
+        <div id='dataset-info-content'></div>
+      </div>
+
+
+    </div>
+
+
+    <!---------------center panel with set view  ------------------>
+
+    <!--padding: 0px;-->
+    <div class="ui-column ui-layout-center">
+      <div id="set-vis-container" data-height-ratio="1" class="fixed-y-container">
+
+        <!--<div class="matrixTableContainer">-->
+        <div style="display: table;">
+          <div style="display: table-row;position: sticky;top: 0;background: white;">
+            <div style="display: table-cell">
+              <div id="headerVis">
+                <!--style="width:200px"-->
+
+              </div>
+            </div>
+          </div>
+          <div style="display: table-row">
+            <div style="display: table-cell">
+
+              <div id="bodyVis">
+                <!--style="height:300px; width:200px"-->
+
+              </div>
+
+            </div>
+          </div>
+
+
+        </div>
+        <!--</div>-->
+
+        <!--<div id="vis"></div>-->
+      </div>
+      <div id='venn-diagram-viewer' class='configTable'>
+        <div id="venn-vis"></div>
+        <div id="venn-diagram-handle"></div>
+      </div>
+    </div>
+
+    <!---------------right panel with element view  ------------------>
+
+    <div class="ui-column ui-layout-east"  style="width:360px;">
+
+      <span id="moveHandle"></span>
+
+      <div class="element-infos-container">
+        <div>
+          <div class="element-view-header">
+            <div class="element-view-title">
+              时间图
+            </div>
+          </div>
+          <div id="element-viewers-container" class="element-view-container">
+            <div id="element-viewers-visualization"></div>
+            <div id="element-viewers-controls" class="element-view-controls"></div>
+          </div>
+
+          <div class="element-view-header">
+            <div class="element-view-title">
+              查询
+            </div>
+          </div>
+
+          <div id="selection-vis-container" class="element-view-container">
+            <div id="selection-tabs"></div>
+            <div id="selection-controls" class="element-view-controls"></div>
+          </div>
+
+          <div class="element-view-header">
+            <div class="element-view-subtitle">
+              查询条件
+            </div>
+          </div>
+
+          <div id="filters-container" class="element-view-container">
+            <div id="filters-list"></div>
+            <div id="filters-controls" class="element-view-controls"></div>
+          </div>
+        </div>
+        <div class="query-result-container">
+          <div id="item-table-container" data-height-ratio="1" class="fixed-y-container element-view-container">
+            <div id="item-table"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript" src="./upset/UpSet.js"></script>
+<script type="text/javascript" src="../js/tags_network.js"></script>
+</body>
+</html>

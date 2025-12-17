@@ -1,0 +1,61 @@
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 6px;
+    height: 6px
+}
+
+::-webkit-scrollbar-track {
+    background: var(--defaultBackground);
+    border-radius: 0
+}
+
+::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    border-radius: 5px;
+    background: transparent;
+    -webkit-transition: color .2s ease;
+    transition: color .2s ease
+}
+html:hover ::-webkit-scrollbar-thumb{
+    background: var(--lighterBackground);
+}
+
+::-webkit-scrollbar-thumb:window-inactive {
+    background: var(--defaultBackground)
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--selectionBackground)
+}
+
+html, body {
+  margin: 0;
+}
+
+th {
+  opacity: 0;
+}
+
+.handsontable:hover th {
+  opacity: 1;
+}
+
+.xsj_header {
+  background-color: var(--selectionBackground)!important;
+  border-bottom: 2px solid var(--primaryColor)!important;
+  font-weight: bolder;
+}
+
+.xsj_last_row {
+  opacity: 0;
+}
+.handsontable:hover .xsj_last_row, .handsontable:focus-within .xsj_last_row{
+  opacity: .3;
+}
+.htCore{
+  background: var(--defaultBackground);
+}
+
+a {
+  color: var(--base09);
+}

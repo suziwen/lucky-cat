@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>小书匠表格</title>
+  <link href="css/handsontable.full.min.css" rel="stylesheet"></link>
+  <style type="text/css">
+.currentRow {
+  background-color: #F9F9FB !important;
+}
+.currentCol {
+  background-color: #E7E8EF !important;
+}
+  </style>
+  <script type="text/javascript" src="js/handsontable.full.min.js"></script>
+  <script type="text/javascript" charset="utf-8">
+var handsontable = null;
+function createTable(options){
+  data = options.data
+  handsontable = new Handsontable(document.body, {
+      data: data,
+      rowHeights: function(i){
+        if (i === 0) {
+          return 60
+        }
+        return 40
+      },
+      columnSorting: true,
+      sortIndicator: true,
+      rowHeaders: true,
+      colHeaders: true,
+      manualColumnResize: true,
+      manualRowResize: true,
+      manualColumnMove: true,
+      manualRowMove: true,
+      currentRowClassName: 'currentRow',
+      currentColClassName: 'currentCol',
+      stretchH: 'all',
+      rowHeaderWidth: 20,
+      contextMenu: {
+        items: {
+          row_above: {
+            name: "在上面添加一行"
+          },
+          row_below: {
+            name: "在下面添加一行"
+          },
+          remove_row: {
+            name: "删除当前行"
+          },
+          col_left: {
+            name: "在左侧添加一列"
+          },
+          col_right: {
+            name: "在右侧添加一列"
+          },
+          remove_col: {
+            name: "删除当前列"
+          }
+        }
+      },
+      });
+}
+  </script>
+</head>
+<body>
+  
+</body>
+</html>

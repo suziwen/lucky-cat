@@ -1,0 +1,31 @@
+{
+  "name": "小书匠(招财猫)",
+  "display": "standalone",
+  "display_modifiers": [
+    "window-controls-overlay"
+  ],
+  "display_override": [
+    "window-controls-overlay"
+  ],
+  "start_url": "/",
+  "theme_color": "#fff",
+  "background_color": "#fff",
+  "categories": [
+    "小书匠",
+    "markdown",
+    "效率工具",
+    "知识管理",
+    "笔记软件"
+  ],
+  "description": "小书匠是一款专业的笔记软件，本地优先，去中心化，选择性多平台同步。",
+  "icons": [
+    {
+      "src": "./img/avatar_d_white_bg_48x48.png",
+      "sizes": "48x48"
+    },
+    {
+      "src": "./img/avatar_d_white_bg_256x256.png",
+      "sizes": "256x256"
+    }
+  ]
+}

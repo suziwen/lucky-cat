@@ -1,0 +1,61 @@
+@font-face {
+  font-family: 'webfontxiaoshujiang';
+  src: url('../../fonts/xiaoshujiang.eot');
+  src: url('../../fonts/xiaoshujiang.eot') format('embedded-opentype'), url('../../fonts/xiaoshujiang.woff') format('woff'), url('../../fonts/xiaoshujiang.ttf') format('truetype'), url('../../fonts/xiaoshujiang.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}   
+html {
+	overflow: hidden;
+	height: 100%;
+	box-sizing: border-box;
+	font-family: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", Heiti, "黑体", SimSun,"宋体", sans-serif;
+}
+body{
+	height: 100%;
+	overflow: hidden;
+	color: #2f2f2f;
+	margin: 0px;
+	padding: 0px;
+	background: #f7f7f7;
+}
+
+.shine_xsj_logo {
+  opacity: 0.5; 
+  pointer-events: none;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  font-family: webfontxiaoshujiang;
+  font-size: 3rem;
+  font-weight: bolder;
+  color: #fff;
+}
+.ui.dimmer.application_dimmer {
+  background: transparent !important;
+  z-index: 1010;
+}
+
+.xsj_viewer{
+	height: 100%;
+	overflow: hidden;
+}
+
+.preview_control_buttons{
+	position: absolute;
+	bottom: 15px;
+	left: 0px;
+}
+
+.preview_control_buttons>.ui.buttons{
+	font-size: 1em;
+}
+.preview_control_buttons .circular_button.active{
+	color: #008000;
+}
+.preview_control_buttons .circular_button{
+	cursor: pointer;
+}
+#MathJax_Message{
+  display: none;
+}

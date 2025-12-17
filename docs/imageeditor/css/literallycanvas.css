@@ -1,0 +1,74 @@
+.literally {
+    position: relative;
+    background-color: #ddd;
+    background-image: linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 75%, gray), linear-gradient(45deg, gray 25%, transparent 25%, transparent 75%, gray 75%, gray);
+    background-size: 60px 60px;
+    background-position: 0 0, 30px 30px;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -ms-touch-action: none;
+    user-select: none
+}
+
+.literally,.literally * {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+.literally>* {
+    position: absolute;
+}
+
+.literally .lc-picker {
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 61px;
+    background-color: #e6e6e6
+}
+
+.literally .lc-drawing {
+    right: 0;
+    left: 0;
+    bottom: 0;
+    left: 0
+}
+
+.literally .lc-drawing>* {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+.literally.toolbar-hidden .lc-drawing {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.literally {
+  width: 100%;
+  height: 100%;
+  margin: 10px auto;
+}
+
+.literally img.background, .literally > canvas {
+  position: absolute;
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小书匠窗口器</title>
+    <link href="css/semantic.min.css" rel="stylesheet">
+    <link href="css/viewer.css" rel="stylesheet">
+    <link href="css/xsj_preview/viewer.css" rel="stylesheet">
+<script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+<script src="js/viewer.js" type="text/javascript"></script>
+<style type="text/css">
+</style>
+</head>
+<body>
+<div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+</div>
+  <div class="ui active dimmer application_dimmer" style="">
+    <div class="content">
+      <div class="ui inverted header">
+        <span style="font-family:webfontxiaoshujiang;font-size: 3rem;" class="shine xsj_shine xsj_slash_shine">小书匠</span>
+        <div class="sub header">欢迎使用<ruby>小<rp>(</rp><rt>xiao</rt><rp>)</rp></ruby><ruby>书<rp>(</rp><rt>shu</rt><rp>)</rp></ruby><ruby>匠<rp>(</rp><rt>jiang</rt><rp>)</rp></ruby>
+</div>
+      </div>
+    </div>
+  </div>
+
+<div class="xsj_viewer"></div>
+<div class="preview_control_buttons">
+    <div class="ui icon buttons vertical">
+        <div class="ui circular_button top_button active">
+            <i class="lock right icon" title="将当前窗口置顶"></i>
+        </div>
+    </div>
+</div>
+<div id="blueimp-gallery" class="blueimp-gallery blueimp-gallery-controls">
+    <div class="slides"></div>
+    <h3 class="title"></h3>
+    <a class="prev">
+            <i class="angle left icon"></i>
+        </a>
+    <a class="next">
+            <i class="angle right icon"></i>
+        </a>
+    <a class="close">×</a>
+    <a class="play-pause">
+            <i class="play icon"></i>
+        </a>
+    <ol class="indicator"></ol>
+</div>
+</body>
+</html>

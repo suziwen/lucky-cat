@@ -1,0 +1,252 @@
+<%= baseThemeCss %>
+
+.main_west_wrapper .ui.input>input {
+  color: black;
+  font-weight: bold;
+}
+
+.main_west_wrapper *::selection{
+  color: black;
+  background: #b0c4de;
+}
+
+
+.main_west_wrapper,
+.main_toolbar_container,
+#main>.ui-layout-resizer-west,
+#main>.ui-layout-resizer-north-closed,
+.client_dragable_zone.client_title_bar {
+    --defaultBackground: rgb(128 ,128, 128 , 17%);
+    --defaultBackground: transparent;
+    --defaultForeground: rgb(255 ,255, 255 , 91%);
+    --darkForeground: rgb(255,255, 255 , 45%);
+    --highlightBackground: rgb(255, 255, 255 , 25%);
+    --selectionBackground: rgb(255, 255, 255 , 20%);
+    --lighterBackground: rgb(255,252,252 , 8%);
+    --lighterBackground: transparent;
+    --lightForeground: rgb(255 ,255, 255 , 90%);
+    --lightBackground: white;
+    color: var(--defaultForeground);
+}
+
+.main_center_wrapper>.no_file.ui.dimmer{
+  box-shadow: none;
+}
+
+.pusher_background:after{
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgb(128 ,128, 128 , 17%);
+    background-image: linear-gradient(to bottom,rgba(0,0,0,.3) 0%, transparent 200px,transparent 100%),linear-gradient(to right, rgb(0 0 0 / 30%) 0%, transparent calc(var(--filePanelWidth, 200px) * 2), transparent 100%);
+}
+
+
+.chrome-tabs .chrome-tab:hover{
+    --lighterBackground: var(--highlightBackground);
+    text-shadow: 0 1px 2px rgba(255,255,255,.65)!important;
+    --defaultForeground: black;
+    --lightForeground: black;
+}
+
+#main .main_west_wrapper .header .ui.input.search_input_wrapper{
+  color: white;
+  text-shadow: 0 1px 2px rgba(255,255,255,.65)!important;
+  font-weight: bold;
+}
+#main .main_west_wrapper .store_content_container .store_plugin_container .search_store_input,
+#main .main_west_wrapper .header .ui.input.search_input_wrapper .search_input{
+  background: var(--highlightBackground);
+  backdrop-filter: blur(10px);
+}
+#main .main_west_wrapper .header .ui.input.search_input_wrapper .close_search_input_wrapper{
+  z-index: 10;
+}
+
+.file_timeline_container .vis-timeline-container .file_timeline_content_container {
+  color: white;
+  background: rgba(0,0,0, .4);
+  backdrop-filter: blur(10px);
+}
+
+.file_browser_quick_filter_container,
+.client_title_bar .ui.dropdown > .menu,
+.main_west_wrapper.slide_open,
+.main_west_wrapper .file_timeline_container,
+.main_west_wrapper .main_filter_button .menu,
+.main_west_wrapper .file_browser_page_nav_container,
+.main_west_wrapper .ui.dropdown > .menu,
+.main_west_wrapper .ui.search > .results,
+.main_toolbar_container .ui.dropdown > .menu,
+.main_toolbar_container .ui.button:hover{
+    --defaultBackground: var(--base00);
+    --lighterBackground: var(--base01);
+    --selectionBackground: var(--base02);
+    --highlightBackground: var(--base03);
+    --darkForeground: var(--base04);
+    --defaultForeground: var(--base05);
+    --lightForeground: var(--base07);
+    --lightBackground: var(--base08);
+    color: var(--defaultForeground);
+    text-shadow: none;
+}
+.main_toolbar_container .ui.buttons.animation_icon_tips:hover .icon_tip {
+    color: var(--base05);
+}
+
+#main .main_toolbar_container .ui.menu {
+    background: none;
+}
+
+.pusher_background {
+    <%= backgroundCss %>
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 0;
+    display: block;
+    background-size: cover;
+    background-position: center;
+    /* background-repeat: no-repeat; */
+}
+
+.pusher_background>.pusher_thumbnail {
+  background-position: center;
+}
+
+<%= thumbnailCss %>
+
+
+div#main {
+    background: none;
+}
+#main > .ui-layout-center{
+    border-radius: 10px;
+    opacity: .96;
+}
+
+.client_title_bar_mode .ui.scale.down.sidebar ~ .pusher_background {
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border-radius: 0;
+}
+
+.ui.left.vertical.inverted.labeled.icon.sidebar.menu.scale.down.visible {
+    top: 0px;
+    bottom: 0px;
+}
+.client_title_bar_mode #main {
+    border: 1px solid rgb(255, 252, 252 , 8%);
+}
+#main>.ui-layout-resizer>.ui-layout-toggler.ui-layout-toggler-north.ui-layout-toggler-closed.ui-layout-toggler-north-closed, 
+#main>.ui-layout-resizer>.ui-layout-toggler.ui-layout-toggler-west.ui-layout-toggler-closed.ui-layout-toggler-west-closed {
+    background: var(--darkForeground)!important;
+}
+#main .ui-layout-west .store_content_container {
+  background: transparent;
+}
+#main .ui-layout-west .file_browser_and_tree .store_plugin_container>.store_tree_container {
+  background: transparent;
+}
+#main .ui-layout-west.main_west_wrapper .ui.dimmer{
+  background-color: var(--selectionBackground);
+}
+
+#main .main_west_wrapper .file_browser_panel_container,
+#main .main_west_wrapper .store_tree_container{
+    text-shadow: 0 1px 2px rgba(0,0,0,.65);
+}
+
+
+#main .main_west_wrapper.slide_open .file_browser_panel_container,
+#main .main_west_wrapper.slide_open .store_tree_container{
+    text-shadow: none!important;
+}
+.ui-layout-west.main_west_wrapper.ui-layout-pane.ui-layout-pane-west:hover ::-webkit-scrollbar-thumb {
+  background: var(--darkForeground);
+}
+.ui-layout-west.main_west_wrapper.ui-layout-pane.ui-layout-pane-west ::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.store_tree_container .store_tree_buttons {
+  background: var(--highlightBackground);
+  backdrop-filter: blur(10px);
+}
+
+.store_tree_container .store_tree_buttons .store_tree_tooltip_bar .store_tree_tooltip_bar_content {
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0,0,0,.65)!important;
+}
+.editorPanel .ace_editor_wrapper, .editorPanel .codemirror_editor_wrapper, .previewPanel .preview_wrapper, .previewPanel .preview_server_control, .editorPanel .light_editor_wrapper, .editorPanel #light_editor{
+  box-shadow: 0 0 5px var(--highlightBackground);
+}
+
+.main_center_wrapper:before{
+  background: var(--defaultBackground);
+  content: ' ';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  opacity: .8;
+}
+
+.main_west_wrapper .store.header:before,
+.main_west_wrapper .store_footer:before,
+.store_plugin_container:before,
+.file_browser_panel_container:before,
+.file_browser_and_search_result .search_result_container:before{
+  transition: background 1s;
+  content: ' ';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  opacity: .4;
+  z-index: -1;
+  border-radius: 5px;
+  pointer-events: none;
+}
+
+.main_west_wrapper .store.header:hover:before,
+.main_west_wrapper .store_footer:hover:before,
+.store_plugin_container:hover:before,
+.file_browser_panel_container:hover:before,
+.file_browser_and_search_result .search_result_container:before{
+  background: #000;
+}
+.store_plugin_container>.plugin_buttons{
+  background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 50%) 1.5em)
+}
+
+.store_plugin_container:hover,
+.file_browser_panel_container:hover,
+.file_browser_and_search_result .search_result_container{
+  backdrop-filter: blur(10px);
+  text-shadow: 0 1px 2px rgb(0 0 0 / 65%);
+  outline-color: white;
+}
+
+.file_browser_and_search_result .ui.selectable.table tbody tr:hover{
+  background-color: #8080807a!important;
+}
+.xsj_flyer{
+  color: white;
+}
+
+.shadow_scroll_effect{
+  background: none;
+}
+
+<%= extraCss %>

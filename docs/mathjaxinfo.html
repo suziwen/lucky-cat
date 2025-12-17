@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+html,body{
+  padding: 0;
+  margin: 0;
+}
+a{
+  text-decoration: none;
+  cursor: default;
+  pointer-events: none;
+}
+  </style>
+  <script defer src="js/MathJax/MathJax.js?config=TeX-AMS-MML_SVG-full&delayStartupUntil=configured" type="text/javascript"></script>
+</head>
+<body>
+  <div class="render_result_container mathjax"></div>
+  <script>
+  window.init = function (){
+    MathJax?.Hub.Config({
+             showProcessingMessages: false,
+             messageStyle: "none",
+             tex2jax: {
+                    inlineMath: [["$","$"],["\\(","\\)"]],
+                    ignoreClass: 'preview',
+                    processClass: 'mathjax'
+             },
+             "HTML-CSS": {linebreaks: {automatic: true}},
+             TeX: { 
+               equationNumbers: {autoNumber: "AMS"},
+               extensions: ["autoload-all.js"]
+             },
+             "SVG": {
+                    linebreaks: {automatic: true},
+                    showMathMenu : false
+                }
+    });
+    window.beforeRenderPreview = function(callback) {
+      if (!window.pending) {
+        window.pending = true;
+        MathJax.Hub.Cancel();
+      }
+      if (MathJax.InputJax.TeX && MathJax.InputJax.TeX.resetEquationNumbers) {
+        MathJax.Hub.Queue(["resetEquationNumbers", MathJax.InputJax.TeX]);
+      }
+      return typeof callback === "function" ? callback() : void 0;
+    };
+    initMathjax();
+    window.renderPreview = function(callback) {
+      MathJax.Hub.Queue(function() {
+        window.pending = false;
+        return MathJax.Hub.cancelTypeset = false;
+      });
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+      MathJax.Hub.Queue(function() {
+        return setTimeout(function() {
+          return typeof callback === "function" ? callback() : void 0;
+        }, 1);
+      });
+    } 
+
+  }
+  function initMathjax() {
+    var HUB, PROCESSERROR;
+    if (!window.MathJax) {
+      return;
+    }
+    HUB = MathJax.Hub;
+    HUB.Configured();
+    if (!HUB.Cancel) {
+      HUB.cancelTypeset = !1;
+      HUB.Register.StartupHook("HTML-CSS Jax Config", function() {
+        var HTMLCSS, TRANSLATE;
+        HTMLCSS = MathJax.OutputJax["HTML-CSS"];
+        TRANSLATE = HTMLCSS.Translate;
+        return HTMLCSS.Augment({
+          Translate: function(script, state) {
+            if (HUB.cancelTypeset || state.cancelled) {
+              throw Error("MathJax Canceled");
+            }
+            return TRANSLATE.call(HTMLCSS, script, state);
+          }
+        });
+      });
+      HUB.Register.StartupHook("SVG Jax Config", function() {
+        var SVG, TRANSLATE;
+        SVG = MathJax.OutputJax.SVG;
+        TRANSLATE = SVG.Translate;
+        return SVG.Augment({
+          Translate: function(script, state) {
+            if (HUB.cancelTypeset || state.cancelled) {
+              throw Error("MathJax Canceled");
+            }
+            return TRANSLATE.call(SVG, script, state);
+          }
+        });
+      });
+      HUB.Register.StartupHook("TeX Jax Config", function() {
+        var TEX, TRANSLATE;
+        TEX = MathJax.InputJax.TeX;
+        TRANSLATE = TEX.Translate;
+        return TEX.Augment({
+          Translate: function(script, state) {
+            if (HUB.cancelTypeset || state.cancelled) {
+              throw Error("MathJax Canceled");
+            }
+            return TRANSLATE.call(TEX, script, state);
+          }
+        });
+      });
+      PROCESSERROR = HUB.processError;
+      HUB.processError = function(error, state, type) {
+        if ("MathJax Canceled" !== error.message) {
+          return PROCESSERROR.call(HUB, error, state, type);
+        }
+        MathJax.Message.Clear(0, 0);
+        state.jaxIDs = [];
+        state.jax = {};
+        state.scripts = [];
+        state.i = state.j = 0;
+        state.cancelled = true;
+        return null;
+      };
+      return HUB.Cancel = function() {
+        return this.cancelTypeset = true;
+      };
+    }
+  };
+  </script>
+</body>
+</html>

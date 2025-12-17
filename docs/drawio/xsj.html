@@ -1,0 +1,240 @@
+<!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=5,IE=9" ><![endif]-->
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script type="text/javascript">
+        /**
+         * URL Parameters and protocol description are here:
+         *
+         * https://support.draw.io/pages/viewpage.action?pageId=12878136
+         *
+         * Parameters for developers:
+         *
+         * - dev=1: For developers only
+         * - test=1: For developers only
+         * - drawdev=1: For developers only
+         * - export=URL for export: For developers only
+         * - ignoremime=1: For developers only (see DriveClient.js). Use Cmd-S to override mime.
+         * - createindex=1: For developers only (see etc/build/README)
+         * - filesupport=0: For developers only (see Editor.js in core)
+         * - savesidebar=1: For developers only (see Sidebar.js)
+         * - pages=1: For developers only (see Pages.js)
+         * - lic=email: For developers only (see LicenseServlet.java)
+         * --
+         * - networkshapes=1: For testing network shapes (temporary)
+         */
+        var urlParams = (function()
+        {
+            var result = new Object();
+            var params = window.location.search.slice(1).split('&');
+            
+            for (var i = 0; i < params.length; i++)
+            {
+                idx = params[i].indexOf('=');
+                
+                if (idx > 0)
+                {
+                    result[params[i].substring(0, idx)] = params[i].substring(idx + 1);
+                }
+            }
+            
+            return result;
+        })();
+
+        // Forces CDN caches by passing URL parameters via URL hash
+        if (window.location.hash != null && window.location.hash.substring(0, 2) == '#P')
+        {
+            try
+            {
+                urlParams = JSON.parse(decodeURIComponent(window.location.hash.substring(2)));
+                
+                if (urlParams.hash != null)
+                {
+                    window.location.hash = urlParams.hash;
+                }
+            }
+            catch (e)
+            {
+                // ignore
+            }
+        }
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles/grapheditor.css">
+    <link rel="stylesheet" type="text/css" href="xsj.css">
+    <style type="text/css">
+        body { overflow:hidden; }
+        div.picker { z-index: 10007; }
+        .geSidebarContainer .geTitle { color:#505050; }
+        .geSidebarContainer .geTitle input {
+            font-size:8pt;
+            color:#606060;
+        }
+        .geBlock {
+            z-index:-3;
+            margin:100px;
+            margin-top:40px;
+            margin-bottom:30px;
+            padding:20px;
+        }
+        .geBlock h1, .geBlock h2 {
+            margin-top:0px;
+            padding-top:0px;
+        }
+        .geEditor ::-webkit-scrollbar {
+            width:12px;
+            height:12px;
+        }
+        .geEditor ::-webkit-scrollbar-track {
+            background:whiteSmoke;
+            -webkit-box-shadow:inset 0 0 4px rgba(0,0,0,0.1);
+        }
+        .geEditor ::-webkit-scrollbar-thumb {
+            background:#c5c5c5;
+            border-radius:10px;
+            border:whiteSmoke solid 3px;
+        }
+        .geEditor ::-webkit-scrollbar-thumb:hover {
+            background:#b5b5b5;
+        }
+        .geTemplate {
+            border:1px solid transparent;
+            display:inline-block;
+            _display:inline;
+            vertical-align:top;
+            border-radius:3px;
+            overflow:hidden;
+            font-size:14pt;
+            cursor:pointer;
+            margin:5px;
+        }
+    </style>
+    <script type="text/javascript">
+        /**
+         * Synchronously adds scripts to the page.
+         */
+        function mxscript(src, onLoad, id, dataAppKey, noWrite)
+        {
+            if (onLoad != null || noWrite)
+            {
+                var s = document.createElement('script');
+                s.setAttribute('type', 'text/javascript');
+                s.setAttribute('src', src);
+                var r = false;
+                
+                if (id != null)
+                {
+                    s.setAttribute('id', id);
+                }
+                
+                if (dataAppKey != null)
+                {
+                    s.setAttribute('data-app-key', dataAppKey);
+                }
+                
+                if (onLoad != null)
+                {
+                    s.onload = s.onreadystatechange = function()
+                    {
+                        if (!r && (!this.readyState || this.readyState == 'complete'))
+                        {
+                            r = true;
+                            onLoad();
+                        }
+                    };
+                }
+                
+                var t = document.getElementsByTagName('script')[0];
+                t.parentNode.insertBefore(s, t);
+            }
+            else
+            {
+                document.write('<script src="' + src + '"' + ((id != null) ? ' id="' + id +'" ' : '') +
+                    ((dataAppKey != null) ? ' data-app-key="' + dataAppKey +'" ' : '') + '></scr' + 'ipt>');
+            }
+        };
+
+        /**
+         * Asynchronously adds scripts to the page.
+         */
+        function mxinclude(src)
+        {
+            var g = document.createElement('script'); g.type = 'text/javascript'; g.async = true; g.src = src;
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(g, s);
+        };
+        
+        // Checks for local storage
+        var isLocalStorage = false;
+        
+        try
+        {
+            isLocalStorage = urlParams['local'] != '1' && typeof(localStorage) != 'undefined';
+        }
+        catch (e)
+        {
+            // ignored
+        }
+
+        // Changes paths for local development environment
+        if (urlParams['dev'] == '1')
+        {
+            // Used to request grapheditor/mxgraph sources in dev mode
+            var mxDevUrl = document.location.protocol + '//localhost:8002';
+            var geBasePath = mxDevUrl + '/javascript/examples/grapheditor/www/js';
+            var mxBasePath = mxDevUrl + '/javascript/src';
+            
+            // Used to request draw.io sources in dev mode
+            var drawDevUrl = '';
+
+            mxscript(drawDevUrl + 'js/diagramly/Init.js');
+            mxscript(geBasePath + '/Init.js');
+            mxscript(mxDevUrl + '/javascript/src/js/mxClient.js');
+            
+            // Adds all JS code that depends on mxClient. This indirection via Devel.js is
+            // required in some browsers to make sure mxClient.js (and the files that it
+            // loads asynchronously) are available when the code loaded in Devel.js runs.
+            mxscript(drawDevUrl + 'js/diagramly/Devel.js');
+        }
+        else
+        {
+            mxscript('js/app.min.js');
+        }
+        
+        // Adds basic error handling
+        window.onerror = function()
+        {
+            var status = document.getElementById('geStatus');
+            
+            if (status != null)
+            {
+                status.innerHTML = 'Page could not be loaded. Please try refreshing.';
+            }
+        };
+    </script>
+</head>
+<body class="geEditor">
+<div id="geInfo">
+    <div class="geBlock" style="text-align:center;min-width:50%;">
+        <h1>小书匠编辑器</h1>
+        <h2 id="geStatus">Loading...</h2>
+        <p>
+            Please ensure JavaScript is enabled.
+        </p>
+    </div>
+</div>
+<script type="text/javascript">
+/**
+ * Main
+ */
+var isInIframe = (window.location != window.parent.location) ? true : false;
+if (!isInIframe) {
+  App.main( function(ui){
+    window.xsjeditor = ui;
+  });
+}
+</script>
+</body>
+</html>

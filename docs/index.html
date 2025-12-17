@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>小书匠</title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="小书匠是一款本地优先，去中心化，分布式，支持选择性同步的全平台覆盖笔记软件">
+  <meta name="author" content="booksmith">
+	<meta name="keywords" content="书匠,小书匠,markdown,evernote,github,dropbox,presentation,powerpoint,编辑器,知识管理系统">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link href="css/preview/code/default.css?v=8.14.12" rel="stylesheet">
+<link href="css/semantic.min.css?v=8.14.12" rel="stylesheet">
+<style id="xsj-default-global-style">
+:root {
+  --base00: #ffffff;
+  --base01: #f5f5f5;
+  --base02: #c8c8fa;
+  --base03: #969896;
+  --base04: #353535;
+  --base05: #333333;
+  --base06: #1f1f1f;
+  --base07: #111111;
+  --base08: #ed6a43;
+  --base09: #0086b3;
+  --base0A: #795da3;
+  --base0B: #183691;
+  --base0C: #183691;
+  --base0D: #795da3;
+  --base0E: #a71d5d;
+  --base0F: #a69900;
+}
+@font-face {
+  font-family: 'subwebfontxiaoshujiang';
+  src:url('./fonts/lucky_cat/char/icomoon.eot');
+  src:url('./fonts/lucky_cat/char/icomoon.eot?#iefixoo1ur0') format('embedded-opentype'),
+    url('./fonts/lucky_cat/char/icomoon.ttf') format('truetype'),
+    url('./fonts/lucky_cat/char/icomoon.woff') format('woff'),
+    url('./fonts/lucky_cat/char/icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'subicomoon';
+  src:url('./fonts/lucky_cat/logo/icomoon.eot');
+  src:url('./fonts/lucky_cat/logo/icomoon.eot?#iefixoo1ur0') format('embedded-opentype'),
+    url('./fonts/lucky_cat/logo/icomoon.ttf') format('truetype'),
+    url('./fonts/lucky_cat/logo/icomoon.woff') format('woff'),
+    url('./fonts/lucky_cat/logo/icomoon.svg#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.mini_web i.icon.xiaoshujiang:before: {
+    font-family: subicomoon;
+    content: '\e900';
+  }
+.mini_web i.icon.xiaoshujiang.circle.outline:before {
+    font-family: subicomoon;
+    content: '\e901';
+}
+.mini_web .main_button i.icon.xiaoshujiang{
+    font-weight: bold;
+    transform: scale(2);
+}
+.mini_web .main_button:hover i.icon.xiaoshujiang.circle.outline:before {
+    font-weight: normal;
+    content: '\e900';
+}
+
+.mini_web.editor_zen_mode .editorPanel:after,.mini_web.preview_zen_mode .preview_center_panel:after {
+  font-family: subicomoon;
+  content: '\e901';
+
+</style>
+
+<link href="css/font-awesome.min.css?v=8.14.12" rel="stylesheet">
+<link href="css/font-awesome-social.min.css?v=8.14.12" rel="stylesheet">
+<link href="css/codemirror.css?v=8.14.12" rel="stylesheet">
+<link href="css/app.css?v=8.14.12" rel="stylesheet">
+<style type="text/css" id="custom-body-font-style">
+</style>
+
+<style type="text/css">
+.shine_xsj_logo {
+  font-family: webfontxiaoshujiang,subwebfontxiaoshujiang;
+}
+#loader-wrapper, .pusher_background{
+  background-color: var(--base09);
+}
+</style>
+
+  <link rel="shortcut icon" href="ico/favicon.ico">
+
+
+</head>
+
+<body onload="initWeb();" class="mini_web github_page_web">
+<div id="loader-wrapper">
+    <div id="loader"></div>
+</div>
+    <div class="ui active dimmer application_dimmer" style="">
+        <div class="content">
+          <div class="ui inverted header">
+            <span style="font-family:webfontxiaoshujiang,subwebfontxiaoshujiang;font-size: 3rem;"><div class="shine-wrapper"><span class="shine-word"><span class="shine-letter" style="text-shadow: rgba(0, 0,
+                      0, 0.4) 0px 0px 0px, rgba(0, 0, 0, 0.4) -0.299024px -0.195789px 0px, rgba(0, 0, 0, 0.4) -0.736283px
+                      -0.48209px 1px, rgba(0, 0, 0, 0.4) -1.24728px -0.81667px 1px, rgba(0, 0, 0, 0.396078) -1.81294px
+                      -1.18704px 1px, rgba(0, 0, 0, 0.392157) -2.42307px -1.58654px 1px, rgba(0, 0, 0, 0.388235) -3.07116px
+                      -2.01088px 2px, rgba(0, 0, 0, 0.376471) -3.75261px -2.45706px 2px, rgba(0, 0, 0, 0.360784) -4.46398px
+                      -2.92285px 2px, rgba(0, 0, 0, 0.333333) -5.2026px -3.40647px 3px, rgba(0, 0, 0, 0.298039) -5.96631px
+                      -3.90651px 3px, rgba(0, 0, 0, 0.25098) -6.7533px -4.4218px 3px, rgba(0, 0, 0, 0.184314) -7.56208px
+                      -4.95136px 3px, rgba(0, 0, 0, 0.101961) -8.39135px -5.49434px 4px;">小</span></span><span class="shine-word"><span class="shine-letter" style="text-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px, rgba(0, 0,
+                    0, 0.4) 0px -0.195789px 0px, rgba(0, 0, 0, 0.4) 0px -0.48209px 0px, rgba(0, 0, 0, 0.4) 0px -0.81667px 1px,
+                    rgba(0, 0, 0, 0.396078) 0px -1.18704px 1px, rgba(0, 0, 0, 0.392157) 0px -1.58654px 1px, rgba(0, 0, 0,
+                    0.388235) 0px -2.01088px 1px, rgba(0, 0, 0, 0.376471) 0px -2.45706px 1px, rgba(0, 0, 0, 0.360784) 0px
+                    -2.92285px 1px, rgba(0, 0, 0, 0.333333) 0px -3.40647px 2px, rgba(0, 0, 0, 0.298039) 0px -3.90651px 2px,
+                    rgba(0, 0, 0, 0.25098) 0px -4.4218px 2px, rgba(0, 0, 0, 0.184314) 0px -4.95136px 2px, rgba(0, 0, 0,
+                    0.101961) 0px -5.49434px 2px;">书</span></span><span class="shine-word"><span class="shine-letter" style="text-shadow: rgba(0, 0, 0, 0.4) 0px 0px 0px, rgba(0, 0, 0, 0.4) 0.299024px -0.195789px 0px, rgba(0, 0,
+                  0, 0.4) 0.736283px -0.48209px 1px, rgba(0, 0, 0, 0.4) 1.24728px -0.81667px 1px, rgba(0, 0, 0, 0.396078)
+                  1.81294px -1.18704px 1px, rgba(0, 0, 0, 0.392157) 2.42307px -1.58654px 1px, rgba(0, 0, 0, 0.388235) 3.07116px
+                  -2.01088px 2px, rgba(0, 0, 0, 0.376471) 3.75261px -2.45706px 2px, rgba(0, 0, 0, 0.360784) 4.46398px -2.92285px
+                  2px, rgba(0, 0, 0, 0.333333) 5.2026px -3.40647px 3px, rgba(0, 0, 0, 0.298039) 5.96631px -3.90651px 3px,
+                  rgba(0, 0, 0, 0.25098) 6.7533px -4.4218px 3px, rgba(0, 0, 0, 0.184314) 7.56208px -4.95136px 3px, rgba(0, 0, 0,
+                  0.101961) 8.39135px -5.49434px 4px;">匠</span></span><div class="shine-mask" style="
+            /* display: none; */
+        "><span class="shine-word"><span class="shine-letter">小</span></span><span class="shine-word"><span
+            class="shine-letter">书</span></span><span class="shine-word"><span
+                                                        class="shine-letter">匠</span></span><span
+                                                        style="font-size:40%;">招财猫版</span></div><span
+                                                        style="font-size: 40%;">招财猫版</span></div></span>
+            <div class="loader_version sub header">8.14.12</div>
+            
+              <div class="loader_message sub header"></div>
+            
+          </div>
+        </div>
+    </div>
+  <noscript>
+        
+    <p>由 于 您的浏览器没有开始javascript的支持，本系统将无法使用</p>
+  </noscript>
+    <div class="client_dragable_zone client_title_bar"></div>
+    
+
+<script src="js/jquery-1.11.2.min.js?v=8.14.12"></script>
+<script src="js/jquery-ui-1.10.4.custom.min.js?v=8.14.12"></script>
+<script src="js/semantic.min.js?v=8.14.12"></script>
+
+<script src="js/modules/index.js?v=8.14.12" type="module"></script>
+<script src="js/vendor-base.js?v=8.14.12"></script>
+<script src="js/codemirror.js?v=8.14.12" id="codemirror_core_js"></script>
+<script src="js/ace/ace-base.js?v=8.14.12"></script>
+<script type="text/javascript">
+APP_VERSION = "8.14.12";
+DATABASE_VERSION = "31";
+ENV = "production";
+IDIOM = "";
+MINI_WEB = true;
+DOCKER_VERSION = true;
+MAC_STORE_WEB = false;
+GITHUB_PAGE_WEB = true;
+</script>
+<script src="js/app.js?v=8.14.12"></script>
+<script type="text/javascript">
+  if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then(function(reg) {
+        // registration worked
+        console.log('Registration succeeded. Scope is ' + reg.scope);
+        afterServiceWorkInitedFn(reg);
+      }).catch(function(error) {
+        // registration failed
+        console.log('Registration failed with ' + error);
+      });
+  }
+
+      function initWeb() {
+        var utils = requirejs('./lib/utils');
+        var canSkip = localStorage.getItem('IKnowMobileVersion')
+        if (canSkip === '1') {
+          return requirejs('initialize');
+        }
+        if (utils.isMobileDevice()) {
+          var $message = $('.loader_message.sub.header');
+          $message.html(`
+              <div>欢迎使用小书匠编辑器<br/> 小书匠推出了手机版(android/ios)编辑器 <a class="ui button positive mini"
+              style="margin:1em;" 
+                  href="http://soft.xiaoshujiang.com/download/">有影笔记</a> ，欢迎下载使用，或者继续访问 <a class="ui
+                  mini button primary" style="margin:1em;"
+                  href="javascript:IKnow();">web
+                  版本小书匠</a></div>
+          `);
+        } else {
+          requirejs('initialize');
+        }
+      }
+     function IKnow () {
+       localStorage.setItem('IKnowMobileVersion', '1');
+       requirejs('initialize');
+     }
+
+</script>
+
+
+<iframe src="http://markdown.xiaoshujiang.com/tongji.html?platform=luckyCat" style="position:absolute" frameborder="0" height=0 width=0></iframe>
+
+
+<div class='pusher_background'></div>
+<div class="pwa_dragable_zone pwa_title_bar"></div>
+</body>
+</html>

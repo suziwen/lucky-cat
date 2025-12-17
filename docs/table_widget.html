@@ -1,0 +1,386 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>小书匠表格</title>
+  <link href="css/font-awesome.min.css" rel="stylesheet">
+  <link href="css/handsontable.full.min.css" rel="stylesheet"></link>
+  <link href="table/css/table_widget.css" rel="stylesheet"></link>
+  <script>
+    if (window.xsjBeforeLoad) {
+      window.xsjBeforeLoad();
+    }
+  </script>
+  <script src="js/jquery-1.11.2.min.js"></script>
+  <script src="js/jquery-ui-1.10.4.custom.min.js"></script>
+  <script src="js/vendor-base.js"></script>
+  <script src="js/parse/parse_depence.js"></script>
+  <script defer src="js/MathJax/MathJax.js?config=TeX-AMS-MML_SVG-full&delayStartupUntil=configured" type="text/javascript"></script>
+  <script type="text/javascript" src="js/handsontable.full.min.js"></script>
+  <script type="text/javascript" src="table/js/table.js"></script>
+  <script type="text/javascript" charset="utf-8">
+var handsontable = null;
+var resizeObserver = null;
+var handsontableMaster = null;
+var alignInfos = [];
+var viewPortWidth = 0;
+
+function createTable(options){
+  data = options.data
+  viewPortWidth = document.body.clientWidth - 15;
+  document.body.onresize = debounceResize;
+  var headerRenderer = function(instance, td, row, col, prop, value, cellProperties) {
+    markdownRenderer.apply(this, arguments)
+    var rowCount = instance.countRows()
+    //Handsontable.renderers.TextRenderer.apply(this, arguments);
+    td.classList.remove('htLeft')
+    td.classList.remove('htRight')
+    td.classList.remove('htCenter')
+    if (row === 0) {
+      td.classList.add('xsj_header')
+      td.classList.add('htMiddle')
+    } else {
+      td.classList.remove('xsj_header')
+      td.classList.remove('htMiddle')
+    }
+    if (row + 1 === rowCount) {
+      td.classList.add('xsj_last_row')
+    } else {
+      td.classList.remove('xsj_last_row')
+    }
+
+    var alignStr = alignInfos[col];
+    if (/left/i.test(alignStr)) {
+      td.classList.add('htLeft')
+    } else if (/right/i.test(alignStr)) {
+      td.classList.add('htRight')
+    } else if (/center/i.test(alignStr)){
+      td.classList.add('htCenter')
+    } else {
+      if (row === 0) {
+        td.classList.add('htCenter')
+      }
+    }
+  };
+  var firstRowMenuItemHiddenFn = function(){
+    if (handsontable) {
+      var selecteds = handsontable.getSelected()
+      if (selecteds && selecteds[0] === 0 && selecteds[1] === selecteds[3]) {
+        // 第一行并且只选中一个单元格
+        return false
+      }
+    }
+    return true
+  }
+  var lastRowMenuItemHiddenFn = function(){
+    if (handsontable) {
+      var selecteds = handsontable.getSelected()
+      if (selecteds && handsontable.countRows() === selecteds[0] + 1) {
+        // 最后一行
+        return true
+      }
+    }
+    return !this.getSettings().allowRemoveRow
+  }
+
+  var copySubTableHiddenFn = function(){
+    if (handsontable) {
+      var selectRange = handsontable.getSelectedRange()
+      var sFrom = selectRange.from
+      var sTo = selectRange.to
+      if (sFrom.row === 0) {
+        sFrom.row = 1
+      }
+      if (sTo.row === 0) {
+        sTo.row = 1
+      }
+      var selectedData = handsontable.getData(sFrom.row, sFrom.col, sTo.row, sTo.col)
+      if (selectedData.length > 1 || (selectedData[0] && selectedData[0].length > 1)) {
+        return false
+      }
+    }
+    return true
+  }
+
+  var modifyCellHiddenFn = function (){
+    return !copySubTableHiddenFn()
+  }
+
+  var copySubTableFn = function(){
+    if (handsontable) {
+      var selectRange = handsontable.getSelectedRange()
+      var sFrom = selectRange.from
+      var sTo = selectRange.to
+      if (sFrom.row === 0) {
+        sFrom.row = 1
+      }
+      if (sTo.row === 0) {
+        sTo.row = 1
+      }
+      var selectedData = handsontable.getData(sFrom.row, sFrom.col, sTo.row, sTo.col)
+      if (selectedData.length > 1 || (selectedData[0] && selectedData[0].length > 1)) {
+        var selectedHeader = handsontable.getData(0, sFrom.col, 0, sTo.col)
+        selectedData.unshift(selectedHeader[0])
+        $(window).trigger('copyTable', [{
+          data: selectedData,
+          aligns: alignInfos
+        }]);
+      }
+    }
+  }
+
+  var getIconHtml = function(alignStr){
+    if (/left/i.test(alignStr)) {
+      return '<i class="fas fa-align-left"></i>'
+    } else if (/right/i.test(alignStr)) {
+      return '<i class="fas fa-align-right"></i>'
+    } else if (/center/i.test(alignStr)){
+      return '<i class="fas fa-align-center"></i>'
+    } else {
+      return '<i class="fas fa-align-justify"></i>'
+    }
+  }
+  var colHeadersFormatFn = function(colIndex){
+
+    return getIconHtml(alignInfos[colIndex]) + '&nbsp;' + Handsontable.helper.spreadsheetColumnLabel(colIndex)
+
+  }
+  handsontable = new Handsontable(document.body, {
+      data: data,
+      rowHeights: function(i){
+        if (i === 0) {
+          return 60
+        }
+        return 40
+      },
+      columnSorting: false,
+      sortIndicator: false,
+      rowHeaders: true,
+      colHeaders: colHeadersFormatFn,
+      minSpareRows: 1,
+      fixedRowsTop: 1,
+      manualColumnResize: false,
+      manualRowResize: false,
+      manualColumnMove: true,
+      manualRowMove: true,
+      rowHeaderWidth: 20,
+      stretchH: 'all',
+      cells: function (row, col, prop) {
+        this.renderer = headerRenderer;
+        return {}
+      },
+      contextMenu: {
+        items: {
+          row_above: {
+            name: "在上面添加一行",
+            hidden: modifyCellHiddenFn
+          },
+          row_below: {
+            name: "在下面添加一行",
+            hidden: modifyCellHiddenFn
+          },
+          remove_row: {
+            name: "删除当前行",
+            hidden: lastRowMenuItemHiddenFn
+          },
+          col_left: {
+            name: "在左侧添加一列",
+            hidden: modifyCellHiddenFn
+          },
+          col_right: {
+            name: "在右侧添加一列",
+            hidden: modifyCellHiddenFn
+          },
+          remove_col: {
+            name: "删除当前列"
+          },
+          xsj_copy: {
+            name: "复制",
+            hidden: copySubTableHiddenFn,
+            callback: function(){
+              copySubTableFn()
+            }
+          },
+          xsj_align: {
+            name: "对齐",
+            hidden: firstRowMenuItemHiddenFn,
+            submenu: {
+              items: [
+                {
+                  key: 'xsj_align:default',
+                  name: function(){
+                    var alignStr = this.getSelected() && alignInfos[this.getSelected()[1]]
+                    var isChecked = !alignStr?'<i class="fas fa-check"></i>':''
+                    return getIconHtml('default') + '&nbsp;&nbsp;默认&nbsp;&nbsp;' + isChecked
+                  },
+                  callback: function(){
+                    if (this.getSelected()){
+                      var colIndex = this.getSelected()[1]
+                      if (!!alignInfos[colIndex]) {
+                        alignInfos[colIndex] = ''
+                        this.render()
+                        debounceTriggerDataChangedFn()
+                      }
+                      alignInfos[colIndex] = ''
+                    }
+                  },
+                },
+                {
+                  key: 'xsj_align:left',
+                  name: function(){
+                    var alignStr = this.getSelected() && alignInfos[this.getSelected()[1]]
+                    var isChecked = alignStr === 'left'?'<i class="fas fa-check"></i>':''
+                    return getIconHtml('left') + '&nbsp;&nbsp;左侧&nbsp;&nbsp;' + isChecked
+                  },
+                  callback: function(){
+                    if (this.getSelected()){
+                      var colIndex = this.getSelected()[1]
+                      if (alignInfos[colIndex] !== 'left') {
+                        alignInfos[colIndex] = 'left'
+                        this.render()
+                        debounceTriggerDataChangedFn()
+                      }
+                    }
+                  },
+                },
+                {
+                  key: 'xsj_align:right',
+                  name: function(){
+                    var alignStr = this.getSelected() && alignInfos[this.getSelected()[1]]
+                    var isChecked = alignStr === 'right'?'<i class="fas fa-check"></i>':''
+                    return getIconHtml('right') + '&nbsp;&nbsp;右侧&nbsp;&nbsp;' + isChecked
+                  },
+                  callback: function(){
+                    if (this.getSelected()){
+                      var colIndex = this.getSelected()[1]
+                      if (alignInfos[colIndex] !== 'right') {
+                        alignInfos[colIndex] = 'right'
+                        this.render()
+                        debounceTriggerDataChangedFn()
+                      }
+                    }
+                  },
+                },
+                {
+                  key: 'xsj_align:center',
+                  name: function(){
+                    var alignStr = this.getSelected() && alignInfos[this.getSelected()[1]]
+                    var isChecked = alignStr === 'center'?'<i class="fas fa-check"></i>':''
+                    return getIconHtml('center') + '&nbsp;&nbsp;中间' + isChecked
+                  },
+                  callback: function(){
+                    if (this.getSelected()){
+                      var colIndex = this.getSelected()[1]
+                      if (alignInfos[colIndex] !== 'center') {
+                        alignInfos[colIndex] = 'center'
+                        this.render()
+                        debounceTriggerDataChangedFn()
+                      }
+                    }
+                  },
+                },
+              ]
+            }
+          }
+        }
+      },
+      });
+
+  handsontable.addHook('modifyColWidth', function(width, col){
+    var autoColumnSize = handsontable.getPlugin('autoColumnSize');
+    if (viewPortWidth && autoColumnSize && autoColumnSize.widths && autoColumnSize.widths.every((_w) => _w > 0)) {
+      var colWidth = autoColumnSize.widths[col];
+      var totalWidth = autoColumnSize.widths.reduce((a, b) => a + b, 0)
+      var newWidth = viewPortWidth * colWidth / totalWidth
+      if (newWidth < 100) {
+        newWidth = 100
+      }
+      if (newWidth > viewPortWidth) {
+        newWidth = viewPortWidth - 100
+      }
+      return newWidth
+    }
+    return width;
+  });
+  handsontable.addHook("afterChange", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterRemoveCol", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterRemoveRow", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterCreateRow", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterCreateCol", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterColumnMove", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterRowMove", function(movedRows, finalIndex, dropIndex, movePossible){
+    var lastIndex = handsontable.countRows() - 1
+    if (movedRows === lastIndex || finalIndex === lastIndex) {
+      if (movedRows !== finalIndex) {
+        handsontable.alter('insert_row')
+      }
+    }
+    return true
+  })
+  handsontable.addHook("afterRowMove", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterUndo", debounceTriggerDataChangedFn)
+  handsontable.addHook("afterRedo", debounceTriggerDataChangedFn)
+  handsontableMaster = document.querySelector('.ht_master table.htCore');
+  resizeObserver = new ResizeObserver(function(){
+    debounceTriggerTableSizeFn();
+  })
+  resizeObserver.observe(handsontableMaster);
+}
+
+var debounceTriggerTableSizeFn = _.debounce(function(){
+  if (!handsontableMaster) {return;}
+  var clientRects = handsontableMaster.getClientRects();
+  if (clientRects && clientRects.length === 1) {
+    var clientRect = clientRects[0];
+    $(window).trigger('tableSizeChanged', [{
+      width: clientRect.width,
+      height: clientRect.height + 10, //保证不会有竖直滚动条
+    }])
+  }
+}, 500)
+
+var debounceTriggerDataChangedFn = _.debounce(function(){
+  if (handsontable) {
+    var returnData = handsontable.getData()
+    // 去掉最后一行
+    if (returnData.length > 2) {
+      returnData = returnData.slice(0, returnData.length - 1)
+    }
+    $(window).trigger('tableDataChanged', [{
+      data: returnData,
+      aligns: alignInfos
+    }]);
+  }
+}, 500)
+
+function loadData (tableData){
+  if (tableData) {
+    alignInfos = tableData.aligns
+    var data = tableData.data;
+    if (handsontable) {
+      handsontable.destroy()
+    }
+    handsontable = null
+    createTable({data: data})
+    
+  }
+}
+
+function unloadFn(){
+  document.body.onresize = null;
+  if (resizeObserver && handsontableMaster) {
+    resizeObserver.unobserve(handsontableMaster)
+    handsontableMaster = null;
+    resizeObserver = null;
+  }
+}
+
+var debounceResize = _.debounce(function(){
+  viewPortWidth = document.body.clientWidth - 15;
+}, 500)
+  </script>
+</head>
+<body onunload="unloadFn();">
+</body>
+</html>
+

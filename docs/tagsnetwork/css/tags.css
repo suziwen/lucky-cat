@@ -1,0 +1,33 @@
+html, body {
+  overflow: hidden;
+}
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: rgba(255,255,255,0.5);
+    -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:vertical {
+    height: 5px;
+    background-color: rgba(0,0,0,0.5);
+    -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:horizontal {
+    width: 5px;
+    background-color: rgba(0,0,0,0.5);
+    -webkit-border-radius: 6px;
+}
+
+
+.dg.main {
+  position: fixed;
+  top: 0;
+  right: 0;
+  opacity: .6;
+}
+
+.dg.main:hover {
+  opacity: 1;
+}

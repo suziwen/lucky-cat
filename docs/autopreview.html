@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <style>
+.mathjax_container {
+  visibility: hidden;
+  text-align: center;
+}
+html,body, .render_result_container {
+  overflow: hidden;
+}
+.render_result_container{
+  text-align: center;
+  background: rgba(211, 211, 211 , 58%);
+}
+  </style>
+  <script src="js/jquery-1.11.2.min.js" type="text/javascript"></script>
+  <script defer src="js/MathJax/MathJax.js?config=TeX-AMS-MML_SVG-full&delayStartupUntil=configured" type="text/javascript"></script>
+j <script src="js/mermaid.full.min.js"></script>
+  <script src="js/raphael-min.js"></script>
+  <script src="js/flowchart.min.js"></script>
+  <script src="js/wavedrom/default.js"></script>
+  <script src="js/wavedrom/wavedrom.min.js"></script>
+</head>
+<body onload="init();">
+  <div class="render_result_container"></div>
+  <div class="mathjax_container"></div>
+  <div class="mermaid"></div>
+  <div class="xsj_flow"></div>
+  <div class="xsj_sequence"></div>
+  <script>
+  function init(){
+    MathJax?.Hub.Config({
+             showProcessingMessages: false,
+             messageStyle: "none",
+             tex2jax: {
+                    inlineMath: [["$","$"],["\\(","\\)"]],
+                    ignoreClass: 'preview',
+                    processClass: 'mathjax'
+             },
+             "HTML-CSS": {linebreaks: {automatic: true}},
+             TeX: { 
+               equationNumbers: {autoNumber: "none"},
+               extensions: ["autoload-all.js"]
+             },
+             "SVG": {
+                    linebreaks: {automatic: true},
+                    showMathMenu : false
+                }
+    });
+    window.beforeRenderPreview = function(callback) {
+      if (!window.pending) {
+        window.pending = true;
+        MathJax.Hub.Cancel();
+      }
+      if (MathJax.InputJax.TeX && MathJax.InputJax.TeX.resetEquationNumbers) {
+        MathJax.Hub.Queue(["resetEquationNumbers", MathJax.InputJax.TeX]);
+      }
+      return typeof callback === "function" ? callback() : void 0;
+    };
+    initMathjax();
+    window.renderPreview = function(callback) {
+      MathJax.Hub.Queue(function() {
+        window.pending = false;
+        return MathJax.Hub.cancelTypeset = false;
+      });
+      MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+      MathJax.Hub.Queue(function() {
+        return setTimeout(function() {
+          return typeof callback === "function" ? callback() : void 0;
+        }, 1);
+      });
+      processFlow();
+      try {
+        return mermaid.init();
+      } catch (error1) {
+        return console.log(error1);
+      }
+    } 
+
+  }
+
+  function initMermaid(){
+    mermaid.initialize({
+      fontFamily: 'monospace',
+      flowchart: {
+        htmlLabels: true
+      },
+      er: {
+        fontSize: 16
+      },
+      journey: {
+        textPlacement: 'old'
+      },
+      gantt: {
+        numberSectionStyles: 4,
+        axisFormatter: [
+          [
+            "%I:%M", function(d) {
+              return d.getHours();
+            }
+          ], [
+            "w. %U", function(d) {
+              return d.getDay() === 1;
+            }
+          ], [
+            "%a %d", function(d) {
+              return d.getDay() && d.getDate() !== 1;
+            }
+          ], [
+            "%b %d", function(d) {
+              return d.getDate() !== 1;
+            }
+          ], [
+            "%m-%y", function(d) {
+              return d.getMonth();
+            }
+          ]
+        ]
+      }
+    });
+  }
+
+  function initMathjax() {
+    var HUB, PROCESSERROR;
+    if (!window.MathJax) {
+      return;
+    }
+    HUB = MathJax.Hub;
+    HUB.Configured();
+    if (!HUB.Cancel) {
+      HUB.cancelTypeset = !1;
+      HUB.Register.StartupHook("HTML-CSS Jax Config", function() {
+        var HTMLCSS, TRANSLATE;
+        HTMLCSS = MathJax.OutputJax["HTML-CSS"];
+        TRANSLATE = HTMLCSS.Translate;
+        return HTMLCSS.Augment({
+          Translate: function(script, state) {
+            if (HUB.cancelTypeset || state.cancelled) {
+              throw Error("MathJax Canceled");
+            }
+            return TRANSLATE.call(HTMLCSS, script, state);
+          }
+        });
+      });
+      HUB.Register.StartupHook("SVG Jax Config", function() {
+        var SVG, TRANSLATE;
+        SVG = MathJax.OutputJax.SVG;
+        TRANSLATE = SVG.Translate;
+        return SVG.Augment({
+          Translate: function(script, state) {
+            if (HUB.cancelTypeset || state.cancelled) {
+              throw Error("MathJax Canceled");
+            }
+            return TRANSLATE.call(SVG, script, state);
+          }
+        });
+      });
+      HUB.Register.StartupHook("TeX Jax Config", function() {
+        var TEX, TRANSLATE;
+        TEX = MathJax.InputJax.TeX;
+        TRANSLATE = TEX.Translate;
+        return TEX.Augment({
+          Translate: function(script, state) {
+            if (HUB.cancelTypeset || state.cancelled) {
+              throw Error("MathJax Canceled");
+            }
+            return TRANSLATE.call(TEX, script, state);
+          }
+        });
+      });
+      PROCESSERROR = HUB.processError;
+      HUB.processError = function(error, state, type) {
+        if ("MathJax Canceled" !== error.message) {
+          return PROCESSERROR.call(HUB, error, state, type);
+        }
+        MathJax.Message.Clear(0, 0);
+        state.jaxIDs = [];
+        state.jax = {};
+        state.scripts = [];
+        state.i = state.j = 0;
+        state.cancelled = true;
+        return null;
+      };
+      return HUB.Cancel = function() {
+        return this.cancelTypeset = true;
+      };
+    }
+  };
+  function getFlowOpts () {
+    return {};
+    return {
+      'x': 0,
+      'y': 0,
+      'line-width': 3,
+      'line-length': 50,
+      'text-margin': 10,
+      'font-size': 14,
+      'font-color': 'black',
+      'line-color': 'black',
+      'element-color': 'black',
+      'fill': 'white',
+      'yes-text': 'yes',
+      'no-text': 'no',
+      'arrow-end': 'block',
+      'scale': 1,
+      'symbols': {
+        'start': {
+          'font-color': 'red',
+          'element-color': 'green',
+          'fill': 'yellow'
+        },
+        'end': {
+          'class': 'end-element'
+        }
+      },
+      'flowstate': {
+        'past': {
+          'fill': '#CCCCCC',
+          'font-size': 12
+        },
+        'current': {
+          'fill': 'yellow',
+          'font-color': 'red',
+          'font-weight': 'bold'
+        },
+        'future': {
+          'fill': '#FFFF99'
+        },
+        'request': {
+          'fill': 'blue'
+        },
+        'invalid': {
+          'fill': '#444444'
+        },
+        'approved': {
+          'fill': '#58C4A3',
+          'font-size': 12,
+          'yes-text': 'APPROVED',
+          'no-text': 'n/a'
+        },
+        'rejected': {
+          'fill': '#C45879',
+          'font-size': 12,
+          'yes-text': 'n/a',
+          'no-text': 'REJECTED'
+        }
+      }
+    };
+  };
+  function processFlow() {
+    var chart, content, e, el, els, flowOpts, i;
+    els = document.getElementsByClassName('xsj_flow');
+    flowOpts = getFlowOpts();
+    i = 0;
+    while (i < els.length) {
+      el = els[i];
+      i++;
+      content = el.textContent;
+      el.textContent = "";
+      try {
+        chart = flowchart.parse(content);
+        chart.drawSVG(el, flowOpts);
+      } catch (error1) {
+        e = error1;
+        el.innerHTML = e.toString();
+      }
+    }
+  };
+
+  </script>
+</body>
+</html>

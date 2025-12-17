@@ -1,0 +1,241 @@
+<!doctype html>
+<html>
+  <head>
+    <title>图片编辑器</title>
+    <link href="../css/semantic.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="./css/cropper.css" rel="stylesheet">
+    <link href="./css/spectrum-colorpicker-1.8.0.css" rel="stylesheet">
+    <link href="./css/literallycanvas.css" rel="stylesheet">
+    <link href="./css/main.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+  </head>
+
+  <body>
+    <div class="fs-container">
+      <div class="tool_bar_container">
+
+        <div class="crop_tool_bar ui icon menu">
+          <a class="item apply_crop_btn">确定</a>
+          <a class="item cancel_crop_btn">取消</a>
+          <a class="item crop_mode_btn active">
+            <i class="icon crop"></i>
+          </a>
+          <a class="item move_mode_btn">
+            <i class="expand arrows alternate icon"></i>
+          </a>
+          <div class="ui pointing dropdown item crop_size_dropdown" title="尺寸大小">
+            <span >尺寸大小</span>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="25*35">1寸 25x35mm</div>
+              <div class="item" data-value="33*22">身份证大头照 33x22mm</div>
+              <div class="item" data-value="22*32">身份证 22mm×32mm </div>
+              <div class="item" data-value="35*53">2寸 35x53mm</div>
+              <div class="item" data-value="48*33">小2寸（护照）48x33mm</div>
+              <div class="item" data-value="33*48">港澳通行证 33mm×48mm</div>
+              <div class="item" data-value="50*50">赴美签证 50mm×50mm</div>
+              <div class="item" data-value="21*26">驾照 21mm×26mm</div>
+              <div class="item" data-value="85*54">IC卡 85x54mm </div>
+              <div class="item" data-value="90*55">名片 90x55mm</div>
+              <div class="item" data-value="55*90">名片 55x90mm</div>
+              <div class="item" data-value="127*89">5寸照片 127x89mm</div>
+              <div class="item" data-value="152*102">6寸照片 152x102mm</div>
+            </div>
+          </div>
+          <div class="menu">
+            <div class="item crop_info">
+             <div class="ui transparent input">
+              <input type="text" class="crop_info_input crop_info_input_width">
+             </div>
+              px&nbsp;&nbsp;
+              <i class="icon close" style="font-size: 1em"></i>
+             <div class="ui transparent input">
+              <input type="text" class="crop_info_input crop_info_input_height">
+             </div>
+              px
+            </div>
+          </div>
+          <div class="ui pointing dropdown item rotate_deg_dropdown" title="尺寸大小">
+            <span >旋转角度</span>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="0">0</div>
+              <div class="item" data-value="90">90</div>
+              <div class="item" data-value="180">180</div>
+              <div class="item" data-value="270">270</div>
+            </div>
+          </div>
+          <div class="menu">
+            <div class="item rotate_info">
+             <div class="ui transparent input">
+              <input type="text" class="rotate_info_input" value="0">
+             </div>
+            </div>
+          </div>
+
+          <div class="ui pointing dropdown item zoom_dropdown" title="尺寸大小">
+            <span >缩放</span>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item" data-value="50">50%</div>
+              <div class="item" data-value="100">100%</div>
+              <div class="item" data-value="150">150%</div>
+              <div class="item" data-value="200">200%</div>
+            </div>
+          </div>
+          <div class="menu">
+            <div class="item zoom_info">
+             <div class="ui transparent input">
+              <input type="text" class="zoom_info_input" value="100">%
+             </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+        <div class="main_tool_bar ui icon menu">
+          <div class="fitted item vertically animation_icon_tips_container">
+            <div class="ui buttons mini basic icon animation_icon_tips" style="margin-right: 10px;">
+              <div class="ui button icon crop_btn" title="裁切">
+                <span class="icon_tip">裁切图片</span>
+                <i class="icon clone crop"></i>
+              </div>
+              <div class="ui button icon undo_btn disabled" title="撤消">
+                <span class="icon_tip">撤消操作</span>
+                <i class="icon arrow left"></i>
+              </div>
+              <div class="ui button icon redo_btn disabled" title="重做">
+                <span class="icon_tip">重做操作</span>
+                <i class="icon arrow right"></i>
+              </div>
+              <div class="ui button icon refresh_btn" title="撤消全部">
+                <span class="icon_tip">撤消全部操作</span>
+                <i class="icon repeat"></i>
+              </div>
+            </div>
+            <div class="ui buttons mini basic icon animation_icon_tips">
+              <div class="ui button icon zoom_in_btn" title="放大">
+                <span class="icon_tip">放大图片</span>
+                <i class="icon search plus"></i>
+              </div>
+              <div class="ui button icon zoom_out_btn" title="缩小">
+                <span class="icon_tip">缩小图片</span>
+                <i class="icon search minus"></i>
+              </div>
+              <div class="ui pointing dropdown button link zoom_level_dropdown" title="缩放">
+                <span class="text">100%</span>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <div class="item" data-value="0.2"><span style="visibility:hidden">0</span>20%</div>
+                  <div class="item" data-value="0.4"><span style="visibility:hidden">0</span>40%</div>
+                  <div class="item" data-value="0.6"><span style="visibility:hidden">0</span>60%</div>
+                  <div class="item" data-value="0.8"><span style="visibility:hidden">0</span>80%</div>
+                  <div class="item" data-value="1">100%</div>
+                  <div class="item" data-value="1.2">120%</div>
+                  <div class="item" data-value="1.4">140%</div>
+                  <div class="item" data-value="1.6">160%</div>
+                  <div class="item" data-value="1.8">180%</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="ui dropdown item component_dropdown" title="工具选择">
+            <span class="text selected_text">
+              <span class="icon_tip">画笔<span style="visibility:hidden">件</span></span>
+              <i class="icon pencil alternate"></i>
+            </span>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item" data-value="select">
+                <span class="icon_tip">选择<span style="visibility:hidden">件</span></span>
+                <i class="icon mouse pointer"></i>
+              </a>
+              <a class="item active selected" data-value="pencil">
+                <span class="icon_tip">画笔<span style="visibility:hidden">件</span></span>
+                <i class="icon pencil alternate"></i>
+              </a>
+              <a class="item" data-value="brush">
+                <span class="icon_tip">高亮<span style="visibility:hidden">件</span></span>
+                <i class="icon paint brush"></i>
+              </a>
+              <a class="item" data-value="eraser">
+                <span class="icon_tip">擦除<span style="visibility:hidden">件</span></span>
+                <i class="icon eraser"></i>
+              </a>
+              <a class="item" data-value="arrow">
+                <span class="icon_tip">箭头<span style="visibility:hidden">件</span></span>
+                <i class="icon long alternate arrow down"></i>
+              </a>
+              <a class="item" data-value="line">
+                <span class="icon_tip">直线<span style="visibility:hidden">件</span></span>
+                <i class="icon minus"></i>
+              </a>
+              <a class="item" data-value="text">
+                <span class="icon_tip">文本<span style="visibility:hidden">件</span></span>
+                <i class="icon font"></i>
+              </a>
+              <a class="item" data-value="rectangle">
+                <span class="icon_tip">四边形</span>
+                <i class="icon square outline"></i>
+              </a>
+              <a class="item" data-value="ellipse">
+                <span class="icon_tip">圆圈形</span>
+                <i class="icon circle outline"></i>
+              </a>
+              <a class="item" data-value="polygon">
+                <span class="icon_tip">多边形</span>
+                <i class="icon map outline"></i>
+              </a>
+              <a class="item" data-value="blur">
+                <span class="icon_tip">模糊<span style="visibility:hidden">件</span></span>
+                <i class="icon tint"></i>
+              </a>
+            </div>
+          </div>
+
+          <div class="ui dropdown item stroke_wide_dropdown" title="线条宽度">
+            <span class="text selected_text">
+              <span style="visibility:hidden">0</span>3&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 3px;"></span>
+            </span>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <a class="item" data-value=1><span style="visibility:hidden">0</span>1&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 1px;"></span></a>
+              <a class="item" data-value=2><span style="visibility:hidden">0</span>2&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 2px;"></span></a>
+              <a class="item active selected" data-value=3><span style="visibility:hidden">0</span>3&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 3px;"></span></a>
+              <a class="item" data-value=4><span style="visibility:hidden">0</span>4&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 4px;"></span></a>
+              <a class="item" data-value=5><span style="visibility:hidden">0</span>5&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 5px;"></span></a>
+              <a class="item" data-value=6><span style="visibility:hidden">0</span>6&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 6px;"></span></a>
+              <a class="item" data-value=7><span style="visibility:hidden">0</span>7&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 7px;"></span></a>
+              <a class="item" data-value=8><span style="visibility:hidden">0</span>8&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 8px;"></span></a>
+              <a class="item" data-value=9><span style="visibility:hidden">0</span>9&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 9px;"></span></a>
+              <a class="item" data-value=10>10&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 10px;"></span></a>
+              <a class="item" data-value=20>20&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 11px;"></span></a>
+              <a class="item" data-value=50>50&nbsp;&nbsp;<span class="stroke_wide_value" style="height: 12px;"></span></a>
+            </div>
+          </div>
+          <div class="item fitted vertically" title="颜色">
+            <input id='border_colorpicker' data-type='primary' value='#f00' class='colorpicker' />
+          </div>
+        </div>
+      </div>
+      <div class="literally_container">
+        <div class="literally"></div>
+      </div>
+    </div>
+
+    <script src="../js/jquery-1.11.2.min.js"></script>
+    <script src="../js/semantic.min.js"></script>
+    <script src="./js/jquery.awesome-cursor.js"></script>
+    <script src="./js/cropper.js"></script>
+    <script src="./js/spectrum-colorpicker-1.8.0.js"></script>
+    <script src="./js/literallycanvas-core.js"></script>
+    <script src="./js/main.bundle.js"></script>
+  </body>
+</html>

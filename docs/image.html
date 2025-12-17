@@ -1,0 +1,62 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>小书匠图片</title>
+  <script src="js/jquery-1.11.2.min.js?v=1.7.1"></script>
+  <script src="js/jquery-ui-1.10.4.custom.min.js?v=1.7.1"></script>
+  <script src="js/semantic.min.js?v=1.7.1"></script>
+  <script src="js/vendor-base.js?v=1.7.1"></script>
+  <script type="text/javascript">
+
+    function converImage(target, callback){
+      html = document.documentElement;
+      html.classList.add('xiaoshujiang_camera')
+      xsjEles = document.getElementsByClassName('xiaoshujiang_element');
+      for (var i=0; i<xsjEles.length; i++){
+        xsjEle = xsjEles[i]
+        xsjEle.classList.add('xiaoshujiang_element_hide')
+      }
+      if (!target) {
+        target = html
+      }
+      domtoimage.toBlob(target).then(function(blob){
+        html.classList.remove('xiaoshujiang_camera')
+        for (var i=0; i<xsjEles.length; i++){
+          xsjEle = xsjEles[i]
+          xsjEle.classList.remove('xiaoshujiang_element_hide')
+        }   
+        callback(null, blob);
+      }).catch(function(err){
+        html.classList.remove('xiaoshujiang_camera')
+        for (var i=0; i<xsjEles.length; i++){
+          xsjEle = xsjEles[i]
+          xsjEle.classList.remove('xiaoshujiang_element_hide')
+        }   
+        callback(err);
+      });
+    }
+  </script>
+</head>
+<body>
+<style type="text/css">
+html, body {
+  overflow: auto;
+  height: initial;
+}
+.xiaoshujiang_code_buttons{
+  display: none!important;
+}
+.xiaoshujiang_code_container{
+  margin: 0px!important;
+  padding-bottom: 0px!important;
+}
+.li_linenum_before_span_hide {
+  display: block!important;
+}
+.li_linenum:before, .li_linenum_before_span{
+  display: none;
+}
+</style>
+</body>
+</html>

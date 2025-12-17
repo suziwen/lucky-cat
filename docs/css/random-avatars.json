@@ -1,0 +1,14 @@
+{
+  "xsj-autumn": {
+    "name": "一叶知秋",
+    "author": "xsj",
+    "dark": false,
+    "template": {
+      "path": "css/themes/templates/light-background.css",
+      "resources": {
+        "backgroundImage": "img/themes/autumn-1655915_1920.jpg"
+      }
+    },
+    "order": 1
+  }
+}
